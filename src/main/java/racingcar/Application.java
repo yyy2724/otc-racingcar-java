@@ -1,8 +1,7 @@
 package racingcar;
 
 import camp.nextstep.edu.missionutils.Console;
-import camp.nextstep.edu.missionutils.Randoms;
-import racingcar.car.Car;
+import racingcar.service.*;
 
 public class Application {
     public static void main(String[] args) {
@@ -10,17 +9,22 @@ public class Application {
 
         System.out.println("경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)");
         //차이름 ,로 구분
-        String carNamePackage = Console.readLine();
+        CarNameService carNameService = new CarNameServiceImpl(Console.readLine());
+        // 차 이름 함수 돌리기
+        carNameService.carNameSet();
+
         System.out.println("시도할 회수는 몇회인가요?");
-        //횟수로
-        int Count = Integer.parseInt(Console.readLine());
 
-        Car car = new Car(carNamePackage, Count);
+        //실행 횟수
+        int count = Integer.parseInt(Console.readLine());
 
-        // 실행!
-        car.letgo();
+        //실행
+        CarLetGoService carLetGoService = new CarLetGoServiceImpl(carNameService.getCarName(), count, carNameService.getRunCount());
+        carLetGoService.letgo();
 
-        // 우승자 출력
-        car.winner();
+        //승자는?
+        WinnerService winnerService = new WinnerServiceImpl(carLetGoService.getCarName(), carLetGoService.getRunCount());
+        winnerService.winner();
+
     }
 }
