@@ -1,23 +1,27 @@
 package racingcar.view;
 
 import camp.nextstep.edu.missionutils.Console;
+import racingcar.dto.GameRequestDto;
 import racingcar.errorMessage.ErrorMessage;
+import racingcar.model.Car;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class InputView implements InputViewInterface{
+public class InputView{
 
-    @Override
-    public String[] setCarName() {
+    private List<String> setCarName() {
         System.out.println("경주할 자동차 이름을 입력하세요.");
 
-        return Console.readLine().split(",");
+        return Arrays.stream(Console.readLine().split(","))
+                .map(String::trim)
+                .collect(Collectors.toList());
 
     }
 
-    @Override
-    public int setCount() {
+    private int setCount() {
         System.out.println("시도할 회수는 몇회인가요?");
         try {
             return Integer.parseInt(Console.readLine());
@@ -27,13 +31,11 @@ public class InputView implements InputViewInterface{
 
     }
 
-    @Override
-    public void check(String[] carLists){
-        for (String carList : carLists) {
-            if(carList.length() > 4){
-                throw new IllegalArgumentException(ErrorMessage.INVALID_NAME_LENGTH.getMessage());
-            }
-        }
+    // 위에 private 을 묶어서 안에서 사용
+    public GameRequestDto setGameRequest(){
+        return new GameRequestDto(setCarName(), setCount());
     }
+
+
 
 }

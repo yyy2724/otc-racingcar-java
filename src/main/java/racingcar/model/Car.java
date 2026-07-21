@@ -1,39 +1,40 @@
 package racingcar.model;
 
 import camp.nextstep.edu.missionutils.Randoms;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import racingcar.errorMessage.ErrorMessage;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+@Getter
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+public class Car {
 
-public class Car implements CarInterface{
+    private final String name;
+    private int count;
 
-    private int position;
 
-    // 몇칸이야
-    @Override
-    public int positon(){
-        return Randoms.pickNumberInRange(0, 9);
+    public static Car from(String name) {
+        if (name.length() > 5) {
+            throw new IllegalArgumentException(ErrorMessage.INVALID_NAME_LENGTH.getMessage());
+        }
+        return new Car(name);
     }
 
     // 움직여 말아
-    @Override
-    public Integer moving(Integer moving, int position){
-
-        return  MoveResult.from(position) == MoveResult.GO ? ++moving : moving;
+    // 내부 변수로 넣고
+    public void moving() {
+        int move = Randoms.pickNumberInRange(0, 9);
+        if (MoveResult.from(move) == MoveResult.GO)
+            count++;
     }
 
-    //승자 정하기
-    @Override
-    public List<String> winner(Map<String, Integer> position){
-        int max = Collections.max(position.values());
-        List<String> lists =  position.entrySet().stream()
-                .filter(list -> list.getValue() == max)
-                .map(Map.Entry :: getKey)
-                .toList();
-
-        return lists;
+    //this.count 기반으로 숫자 기반으로
+    //toString 에서 그냥 짝대기 출력까지 정의한다.
+    public String toString(){
+        return name + " : " + "-".repeat(count);
     }
+
 
 
 
