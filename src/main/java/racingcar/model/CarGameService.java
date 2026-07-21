@@ -4,7 +4,6 @@ import lombok.Getter;
 import racingcar.dto.GameRequestDto;
 import racingcar.dto.GameResponseDto;
 
-import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -27,22 +26,8 @@ public class CarGameService {
             System.out.println(this);
         }
 
-        return new GameResponseDto(findWinner());
+        return new GameResponseDto(GameResponseDto.winners(cars));
 
-    }
-
-    // 승자 찾기
-    private List<String> findWinner(){
-
-        int maxScore = cars.stream()
-                .mapToInt(Car::getCount)
-                .max()
-                .orElse(0);
-
-        return cars.stream()    // GameResponseDto 를 출력
-                .filter(car -> car.getCount() == maxScore)
-                .map(Car::getName)
-                .toList();
     }
 
     private void eachRoundPlay(){
