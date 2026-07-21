@@ -2,6 +2,7 @@ package racingcar.model;
 
 import lombok.Getter;
 import racingcar.dto.GameRequestDto;
+import racingcar.dto.GameResponseDto;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,11 +21,18 @@ public class CarGameService {
     }
 
     //차 별로 이동 카운트
-    public List<String> play() {
+    public GameResponseDto play() {
         for (int i = 0; i < this.round; i++) {
             eachRoundPlay();
             System.out.println(this);
         }
+
+        return new GameResponseDto(findWinner());
+
+    }
+
+    // 승자 찾기
+    private List<String> findWinner(){
 
         int maxScore = cars.stream()
                 .mapToInt(Car::getCount)
@@ -35,7 +43,6 @@ public class CarGameService {
                 .filter(car -> car.getCount() == maxScore)
                 .map(Car::getName)
                 .toList();
-
     }
 
     private void eachRoundPlay(){

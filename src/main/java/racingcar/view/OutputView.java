@@ -1,5 +1,6 @@
 package racingcar.view;
 
+import racingcar.dto.GameResponseDto;
 import racingcar.model.Car;
 
 import java.util.Collections;
@@ -15,24 +16,15 @@ public class OutputView{
     }
 
     //승자 출력
-    public void winnerOutput(List<String> winner){
+    public void winnerOutput(GameResponseDto dto){
         String a = "최종 우승자 : ";
-        a = a + winner.stream()
+        a = a + dto.getWinner().stream()
                 .collect(Collectors.joining(", "));
 
         System.out.println(a);
 
     }
 
-    // 짝대기 출력
-//    public void movingOutput(String name, int count) {
-//        System.out.println(name + " : " + "-".repeat(count));
-//    }
-
-    // 빈칸출력
-    public void printBlankLine(){
-        System.out.println();
-    }
 
 
 }

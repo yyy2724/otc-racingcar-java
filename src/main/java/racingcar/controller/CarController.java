@@ -1,6 +1,7 @@
 package racingcar.controller;
 
 import racingcar.dto.GameRequestDto;
+import racingcar.dto.GameResponseDto;
 import racingcar.model.Car;
 import racingcar.model.CarGameService;
 import racingcar.view.InputView;
@@ -37,7 +38,9 @@ public class CarController {
         CarGameService carGameService = new CarGameService(gameRequestDto); // 생성자로 강제 완료!
 
         //작대기 및 승자 출력
-        outputView.winnerOutput(carGameService.play()); // 이거 이렇게 쓰지 않기 두줄로 찢기
+        GameResponseDto gameResponseDto = carGameService.play();
+        outputView.winnerOutput(gameResponseDto);
+        // 이거 이렇게 쓰지 않기 두줄로 찢기
 
 
     }
